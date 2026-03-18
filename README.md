@@ -20,6 +20,26 @@ TrueType is an outline font standard developed by Apple in the late 1980s as a c
 
 The primary strength of TrueType was originally that it offered [font](https://en.wikipedia.org/wiki/Font) developers a high degree of control over precisely how their fonts are displayed, right down to particular [pixels](https://en.wikipedia.org/wiki/Pixel), at various font sizes. With widely varying [rendering](https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) technologies in use today, pixel-level control is no longer certain in a TrueType font.
 
+</br>
+
+# Where can I get TTF files?
+* https://www.fontspace.com/category/ttf
+* http://www.myfont.de/fonts/alphabet/ttf-fonts-S.html
+* https://fontdrop.info/#/?darkmode=true
+* https://font.download/search/Ttf
+* https://www.fontsquirrel.com/fonts/list/popular
+* https://www.1001freefonts.com/
+* https://www.dafont.com/ttf.d592
+
+# Editors:
+* https://www.glyphrstudio.com/
+* https://fontforge.org/en-US/
+* https://www.birdfont.org/
+* https://www.calligraphr.com/de/
+
+Here is my selection of Graffiti fonts that I use : 
+https://mega.nz/file/cKoXVArR#GmV-Nay9MJXqcPBiyd-mlsOMZI1E9Z-CwyoBrSZ7tUI
+
 
 
 
