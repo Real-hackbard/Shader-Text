@@ -37,8 +37,12 @@ The primary strength of TrueType was originally that it offered [font](https://e
 * https://www.birdfont.org/
 * https://www.calligraphr.com/de/
 
+* </br>
+
 Here is my selection of Graffiti fonts that I use :  
 https://mega.nz/file/cKoXVArR#GmV-Nay9MJXqcPBiyd-mlsOMZI1E9Z-CwyoBrSZ7tUI
+
+</br>
 
 # Fragment-Shader:
 Fragment shaders, also known as pixel shaders, compute color and other attributes of each "fragment": a unit of rendering work affecting at most a single output pixel. The simplest kinds of pixel shaders output one screen pixel as a color value; more complex shaders with multiple inputs/outputs are also possible. Pixel shaders range from simply always outputting the same color, to applying a lighting value, to doing bump mapping, [shadows](https://en.wikipedia.org/wiki/Shadow), specular highlights, translucency and other phenomena. They can alter the depth of the fragment (for Z-buffering), or output more than one color if multiple render targets are active.
