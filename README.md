@@ -10,6 +10,15 @@
 
 </br>
 
+TrueType is an outline font standard developed by Apple in the late 1980s as a competitor to Adobe's Type 1 fonts used in PostScript. It has become the most common format for fonts on the classic Mac OS, macOS, and Microsoft Windows operating systems.
+
+</br>
+
+![ShaderText](https://github.com/user-attachments/assets/31fabb01-3278-462b-aff9-647c1d91d796)
+
+</br>
+
+The primary strength of TrueType was originally that it offered [font](https://en.wikipedia.org/wiki/Font) developers a high degree of control over precisely how their fonts are displayed, right down to particular [pixels](https://en.wikipedia.org/wiki/Pixel), at various font sizes. With widely varying [rendering](https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) technologies in use today, pixel-level control is no longer certain in a TrueType font.
 
 
 
