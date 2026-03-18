@@ -37,7 +37,7 @@ The primary strength of TrueType was originally that it offered [font](https://e
 * https://www.birdfont.org/
 * https://www.calligraphr.com/de/
 
-* </br>
+</br>
 
 Here is my selection of Graffiti fonts that I use :  
 https://mega.nz/file/cKoXVArR#GmV-Nay9MJXqcPBiyd-mlsOMZI1E9Z-CwyoBrSZ7tUI
