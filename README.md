@@ -40,7 +40,107 @@ The primary strength of TrueType was originally that it offered [font](https://e
 Here is my selection of Graffiti fonts that I use :  
 https://mega.nz/file/cKoXVArR#GmV-Nay9MJXqcPBiyd-mlsOMZI1E9Z-CwyoBrSZ7tUI
 
+# Fragment-Shader:
+Fragment shaders, also known as pixel shaders, compute color and other attributes of each "fragment": a unit of rendering work affecting at most a single output pixel. The simplest kinds of pixel shaders output one screen pixel as a color value; more complex shaders with multiple inputs/outputs are also possible. Pixel shaders range from simply always outputting the same color, to applying a lighting value, to doing bump mapping, [shadows](https://en.wikipedia.org/wiki/Shadow), specular highlights, translucency and other phenomena. They can alter the depth of the fragment (for Z-buffering), or output more than one color if multiple render targets are active.
 
+</br>
+
+```pascal
+procedure ShadedTextOut( const Bitmap   : TBitmap;   // Graphic
+                               Text   : String;      // Shader Text
+                               Font   : TFont;       // Font Style
+                               X,Y,                  // Position
+                               DX,DY  : Integer      // Shadow offset.
+                                     );
+     type pColArray = ^TColArray;
+          TColArray = Array[0..1439] of TColor;
+      var MaskAND : TBitmap;
+          MaskOR  : TBitmap;
+          BmpDest   : TBitmap;
+          Ht,Lg     : Integer;
+          Pixels    : pColArray;
+          NbrePix   : Integer;
+begin
+{$R-}
+  if Text  = ''  then exit;
+  if Bitmap   = nil then exit;
+  if Font = nil then exit;
+
+  MaskAND := TBitmap.Create;
+  MaskOR  := TBitmap.Create;
+  BmpDest   := TBitmap.Create;
+  try
+    MaskAND.Canvas.Brush.Color := clBlack;
+    MaskAND.Canvas.Font        := Font;
+    MaskAND.Canvas.Font.Color  := clWhite;
+    Ht := DY + MaskAND.Canvas.TextHeight( Text );
+    // Larger for italicized font.
+    Lg := DX + MaskAND.Canvas.TextWidth ( Text ) + Ht div 2;
+    // Must be divisible by 4 for a single Scanline.
+    if Lg mod 4 <> 0 then Lg := Lg + ( 4 - Lg mod 4 );
+    MaskAND.Width  := Lg;
+    MaskAND.Height := Ht;
+    MaskAND.Canvas.TextOut( DX, DY, Text );
+
+    // To work with TColor.
+    MaskOR.PixelFormat := pf32Bit;
+    MaskOR.Width       := Lg;
+    MaskOR.Height      := Ht;
+    // MaskOR will contain the background of the original image...
+
+    MaskOR.Canvas.CopyRect(MaskOR.Canvas.ClipRect,
+                             Bitmap.Canvas,
+                             Rect(X,Y,X+Lg,Y+Ht));
+
+    // ...as well as BmpDest.
+    BmpDest.Assign(MaskOR);
+
+    {We copy the AND mask onto the OR mask using the AND operator.}
+    BitBlt(MaskOR.Canvas.Handle,0,0,Lg,Ht,MaskAND.Canvas.Handle,0,0,SRCAND);
+
+    {Destination BMP shading.}
+    Pixels := MaskOR.ScanLine[Ht-1];
+
+    for NbrePix := 1 to Lg*Ht do
+        if Pixels[NbrePix] <> clBlack then
+        Pixels[NbrePix] := GetShadowColor(Pixels[NbrePix]);
+
+
+    // Invert the colors to obtain a new mask.
+    BitBlt(MaskAND.Canvas.Handle,0,0,Lg,Ht,MaskAND.Canvas.Handle,0,0,DSTINVERT	);
+    {Classic 2-step raster method.}
+    // Copy of MaskAND onto BmpDest using the AND operator.
+    BitBlt(BmpDest.Canvas.Handle,0,0,Lg,Ht,MaskAND.Canvas.Handle,0,0,SRCAND);
+    // Copy of MaskOR onto BmpDest with the OR operator.
+    BitBlt(BmpDest.Canvas.Handle,0,0,Lg,Ht,MaskOR.Canvas.Handle,0,0,SRCPAINT);
+
+    {The shadow is drawn. Now, draw the colored text using the classic method.}
+    MaskAND.Canvas.Brush.Color := clWhite;
+    // Repaint in white.
+    MaskAND.Canvas.FillRect(MaskAND.Canvas.ClipRect);
+    MaskAND.Canvas.Font.Color := clBlack;
+    // MaskAND = black text on a white background.
+    MaskAND.Canvas.TextOut(0, 0, Text);
+
+    MaskOR.Canvas.Brush.Color := clBlack;
+    // Repaint in black.
+    MaskOR.Canvas.FillRect(MaskOR.Canvas.ClipRect);
+    MaskOR.Canvas.Font := Font;
+    // MaskOR = colored text on a black background.
+    MaskOR.Canvas.TextOut(0, 0, Text);
+    // Classical Raster Method...
+    BitBlt(BmpDest.Canvas.Handle,0,0,Lg,Ht,MaskAND.Canvas.Handle,0,0,SRCAND);
+    // ... in 2 steps.
+    BitBlt(BmpDest.Canvas.Handle,0,0,Lg,Ht,MaskOR.Canvas.Handle,0,0,SRCPAINT);
+    // We put everything back on the original image.
+    Bitmap.Canvas.CopyRect(Rect(X,Y,X+Lg,Y+Ht),BmpDest.Canvas,BmpDest.Canvas.ClipRect);
+  finally
+    BmpDest.Free;
+    MaskOR.Free;
+    MaskAND.free;
+  end;
+end;
+```
 
 
 
